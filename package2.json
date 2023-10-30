@@ -1,0 +1,17 @@
+{
+  "name": "projetomba",
+  "version": "1.0.0",
+  "description": "Projeto MBA - Disciplina API and Microsservices Development ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Nodejs",
+    "Cliente",
+    "Javascript",
+    "Autenticar"
+  ],
+  "author": "Maria Fernanda Balassoni",
+  "license": "ISC"
+}
