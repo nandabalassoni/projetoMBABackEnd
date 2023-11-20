@@ -19,7 +19,7 @@ exports.registerUser = async (req, res) => {
     }
 
     // Criptografe a senha antes de armazenar no banco de dados
-    const passwordHash = await bcrypt.hash(password, config.bcrypt_salt)
+    const passwordHash = await bcrypt.hash(password, 10)
 
     const newUser = new User({
       name,
@@ -45,8 +45,6 @@ exports.loginUser = async (req, res) => {
   try {
     const { email, username, password } = req.body
 
-    console.log(`${username} - ${password}`)
-
     // Verifique se o e-mail existe no banco de dados
     const user = await User.findOne({ email })
 
@@ -55,10 +53,10 @@ exports.loginUser = async (req, res) => {
     }
 
     // Verifica a senha
-    // const correctPassword = await bcrypt.compare(password, user.password)
-    // if (!correctPassword) {
-    //   return res.status(401).json({ output: 'Senha incorreta!' })
-    // }
+    const correctPassword = await bcrypt.compare(password, user.password)
+    if (!correctPassword) {
+      return res.status(401).json({ output: 'Senha incorreta!' })
+    }
 
     const token = generateToken(user.id, user.username, user.email)
 
