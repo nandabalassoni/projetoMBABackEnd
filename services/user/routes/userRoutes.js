@@ -10,7 +10,8 @@ router.post('/login', userController.loginUser)
 
 router.put('/alterarsenha/:id', authentication, userController.alterarSenha)
 
-router.put('/atualizar/:id', userController.updateUser)
+// Atualiza os dados do usuário
+router.put('/atualizarusuario/:id', userController.updateUser)
 
 router.delete('/deletar/:id', userController.deleteUser)
 

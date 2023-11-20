@@ -8,8 +8,8 @@ mongoose.connect(urldb, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-  .then((rs) => {
-    console.log(rs)
+  .then(() => {
+    console.log('Conexão realizada com sucesso!')
   }).catch((error) => {
     console.error(`Erro de conexao ->${error}`)
   })

@@ -7,7 +7,7 @@ const authentication = (req, res, next) => {
   console.log(tokenCreated)
 
   if (!tokenCreated) {
-    return res.status(401).send({ output: 'Token não informado!' })
+    return res.status(401).send({ output: 'Token não informado! Efetue o login. ' })
   }
 
   jwt.verify(tokenCreated, config.jwt_secret, (error, result) => {
