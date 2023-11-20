@@ -11,7 +11,7 @@ mongoose.connect(urldb, {
   useUnifiedTopology: true,
 })
   .then((rs) => {
-    console.log(rs)
+    console.log('Conexão realizada com sucesso!')
   }).catch((error) => {
     console.error(`Erro de conexao ->${error}`)
   })
