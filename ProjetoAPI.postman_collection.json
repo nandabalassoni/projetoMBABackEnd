@@ -1,0 +1,213 @@
+{
+	"info": {
+		"_postman_id": "b0542336-d7cb-4c3e-b33e-b746c80e89d8",
+		"name": "Projeto API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "5172291"
+	},
+	"item": [
+		{
+			"name": "Cadastrar um novo usuário",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"name\": \"Carlos Silva\",\n\"email\": \"carlos.silva@example.com\",\n\"username\": \"carlossilva\",\n\"password\": \"senha789\"\n\"cpf\": \"987.654.321-03\",\n\"telephone\": \"987654321\",\n\"age\": 35,\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{HOST_NAME}}:{{USER_API_PORT}}/usuario/cadastrar"
+			},
+			"response": []
+		},
+		{
+			"name": "Logar em usuário e obter token JWT",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"email\": \"carlos.silva@example.com\",\n\"username\": \"carlossilva\",\n\"password\": \"senha789\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{HOST_NAME}}:{{USER_API_PORT}}/usuario/login"
+			},
+			"response": []
+		},
+		{
+			"name": "Alterar senha do usuário",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{JWT_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"currentPassword\": \"novasenha\",\n    \"newPassword\": \"nayarafelix\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{HOST_NAME}}:{{USER_API_PORT}}/usuario/alterarsenha/6557ecb57c1b5e0b9f121014/"
+			},
+			"response": []
+		},
+		{
+			"name": "Cadastrar um novo cliente",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{JWT_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"name\": \"Lucas Pereira\",\n\"email\": \"lucas.pereira@dominio.com\",\n\"cpf\": \"123.456.789-04\",\n\"telephone\": \"987654321\",\n\"address\": \"Avenida LMN, 789\",\n\"age\": 28\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{HOST_NAME}}:{{CLIENT_API_PORT}}/cliente/cadastrar"
+			},
+			"response": []
+		},
+		{
+			"name": "Atualizar informações do cliente",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{JWT_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Novo Nome do Cliente\",\n  \"email\": \"novocliente@dominio.com\",\n  \"telephone\": \"123456789\",\n  \"address\": \"Nova Rua XYZ, 456\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{HOST_NAME}}:{{CLIENT_API_PORT}}/cliente/atualizar/655808932953abf47d5e5d4d"
+			},
+			"response": []
+		},
+		{
+			"name": "Cadastrar informações financeiras",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{JWT_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"clientId\": \"655808932953abf47d5e5d4d\",\n  \"bankName\": \"Nome do Banco\",\n  \"accountType\": \"Tipo de Conta\",\n  \"cardholderName\": \"Nome do Titular do Cartão\",\n  \"cardLimit\": 5000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{HOST_NAME}}:{{FINANCE_API_PORT}}/financeiro/cadastrar"
+			},
+			"response": []
+		},
+		{
+			"name": "Atualizar informações financeiras",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{JWT_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"clientId\": \"655808932953abf47d5e5d4d\",\n  \"bankName\": \"Novo Nome do Banco\",\n  \"accountYype\": \"Novo Tipo de Conta\",\n  \"cardholderName\": \"Novo Titular do Cartão\",\n  \"cardLimit\": 7000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{HOST_NAME}}:{{FINANCE_API_PORT}}/financeiro/atualizar/65580a05a433835977b3dd4c"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "HOST_NAME",
+			"value": "http://localhost",
+			"type": "string"
+		},
+		{
+			"key": "USER_API_PORT",
+			"value": "4000",
+			"type": "string"
+		},
+		{
+			"key": "CLIENT_API_PORT",
+			"value": "5533",
+			"type": "string"
+		},
+		{
+			"key": "FINANCE_API_PORT",
+			"value": "5000",
+			"type": "string"
+		},
+		{
+			"key": "JWT_TOKEN",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZHVzZXIiOiI2NTU3ZWNiNTdjMWI1ZTBiOWYxMjEwMTQiLCJ1c2VybmFtZSI6Im5vdm91c3VhcmlvIiwiZW1haWwiOiJ1c3VhcmlvQGRvbWluaW8uY29tIiwiaWF0IjoxNzAwMjYyMjI4LCJleHAiOjE3MDA0MzUwMjh9.5s1Gw5k4p93948_Mz83mvQXFJxwRVV0BQHxDcniQq8E",
+			"type": "string"
+		}
+	]
+}
