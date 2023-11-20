@@ -60,7 +60,7 @@ exports.updateFinancialInformation = async (req, res) => {
 
     await financialInformation.save()
 
-    res.status(200).json({ output: 'Informações financeiras atualizadas com sucesso.' })
+    res.status(200).send({ output: 'Informações financeiras atualizadas com sucesso.', payload: financialInformation })
   } catch (error) {
     console.error(error)
     res.status(500).json({ output: 'Erro no servidor' })

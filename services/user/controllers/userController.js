@@ -88,10 +88,10 @@ exports.alterarSenha = async (req, res) => {
       return res.status(404).json({ output: 'Usuário não encontrado' })
     }
 
-    // const correctPassword = await user.checkPassword(currentPassword)
-    // if (!correctPassword) {
-    //   return res.status(401).json({ output: 'Senha atual incorreta' })
-    // }
+     const correctPassword = await user.checkPassword(currentPassword)
+     if (!correctPassword) {
+      return res.status(401).json({ output: 'Senha atual incorreta' })
+     }
 
     const newEncryptedPassword = await bcrypt.hash(newPassword, config.bcrypt_salt)
 
