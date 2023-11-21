@@ -6,7 +6,11 @@ const userController = require('../controllers/userController')
 
 router.post('/cadastrar', userController.registerUser)
 
+router.get('/listar', userController.listUsers)
+
 router.post('/login', userController.loginUser)
+
+router.post('/logout', authentication, userController.logoutUser)
 
 router.put('/alterarsenha/:id', authentication, userController.alterarSenha)
 

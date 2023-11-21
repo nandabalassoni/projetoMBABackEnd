@@ -1,4 +1,3 @@
-const bcrypt = require('bcrypt')
 const mongoose = require('../database/connection')
 
 const userSchema = new mongoose.Schema({
@@ -11,19 +10,6 @@ const userSchema = new mongoose.Schema({
   password: { type: String, require: true },
   createddate: { type: Date, default: Date.now },
 })
-
-// userSchema.pre('save', function (next) {
-//   const user = this
-//   if (!user.isModified('password')) return next()
-//   bcrypt.hash(user.password, 10, (error, hashpass) => {
-//     user.password = hashpass
-//     return next()
-//   })
-// })
-
-userSchema.methods.checkPassword = async function (password) {
-  return bcrypt.compare(password, this.password)
-}
 
 const UserModel = mongoose.model('User', userSchema)
 

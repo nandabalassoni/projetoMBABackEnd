@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt')
 
 const config = require('../config/settings')
 const generateToken = require('../utils/token')
+const Token = require('../auth/tokenModel')
 
 const User = require('../models/userModel')
 const ManagerUser = require('../models/managerUserModel')
@@ -41,9 +42,27 @@ exports.registerUser = async (req, res) => {
   }
 }
 
+exports.listUsers = async (req, res) => {
+  try {
+    // Busca todos os usuários no banco de dados
+    const usuarios = await User.find();
+
+    // Verifica se há usuários
+    if (usuarios.length === 0) {
+      return res.status(404).json({ output: 'Nenhum usuário encontrado.' });
+    }
+
+    // Retorna a lista de usuários
+    res.status(200).json({ output: 'Lista de usuários encontrada com sucesso.', payload: usuarios });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ output: `Erro ao listar usuários: ${error}`, error });
+  }
+}
+
 exports.loginUser = async (req, res) => {
   try {
-    const { email, username, password } = req.body
+    const { email, password } = req.body
 
     // Verifique se o e-mail existe no banco de dados
     const user = await User.findOne({ email })
@@ -58,7 +77,18 @@ exports.loginUser = async (req, res) => {
       return res.status(401).json({ output: 'Senha incorreta!' })
     }
 
+    // Verifica se o usuário já está logado
+    const existingToken = await Token.findOne({ userid: user.id })
+
+    if (existingToken) {
+      return res.status(401).json({ output: 'Usuário já está logado!', payload: user, existingToken })
+    }
+
     const token = generateToken(user.id, user.username, user.email)
+
+    // Insere o token na tabela de tokens
+    const tokenEntry = new Token({ token, userid: user.id })
+    await tokenEntry.save()
 
     const info = new ManagerUser({
       userid: user.id,
@@ -76,6 +106,20 @@ exports.loginUser = async (req, res) => {
   }
 }
 
+exports.logoutUser = async (req, res) => {
+  try {
+    const token = req.headers.token;
+
+    // Remove o token do banco de dados
+    await Token.findOneAndDelete({ token });
+
+    res.status(200).send({ output: 'Logout realizado com sucesso!' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ output: `Erro ao realizar o logout: ${error}` });
+  }
+}
+
 exports.alterarSenha = async (req, res) => {
   try {
     const userId = req.params.id
@@ -88,10 +132,10 @@ exports.alterarSenha = async (req, res) => {
       return res.status(404).json({ output: 'Usuário não encontrado' })
     }
 
-     const correctPassword = await user.checkPassword(currentPassword)
-     if (!correctPassword) {
-      return res.status(401).json({ output: 'Senha atual incorreta' })
-     }
+    const correctPassword = await bcrypt.compare(currentPassword, user.password)
+    if (!correctPassword) {
+      return res.status(401).json({ output: 'Senha atual incorreta!' })
+    }
 
     const newEncryptedPassword = await bcrypt.hash(newPassword, config.bcrypt_salt)
 
@@ -106,26 +150,45 @@ exports.alterarSenha = async (req, res) => {
   }
 }
 
-exports.updateUser = (req, res) => {
+exports.updateUser = async (req, res) => {
   try {
-    const user = User.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    const { name, email, cpf, telephone, age, username } = req.body;
+
+    const updatedFields = { name, email, cpf, telephone, age, username };
+
+    const user = await User.findByIdAndUpdate(req.params.id, updatedFields, { new: true });
 
     if (!user) {
-      res.status(400).send({ output: 'Não foi possível localizar o usuário!' })
+      return res.status(400).send({ output: 'Não foi possível localizar o usuário!' });
     }
-    res.status(200).send({ ouptut: 'Usuário atualizado com sucesso!', payload: user })
+
+    const userObject = user.toObject();
+
+    return res.status(200).send({ output: 'Usuário atualizado com sucesso!', payload: userObject });
   } catch (error) {
-    console.error(error)
-    res.status(500).send({ output: 'Erro ao tentar atualizar', erro: error })
+    console.error(error);
+    return res.status(500).send({ output: 'Erro ao tentar atualizar', erro: error.message });
   }
 }
 
-exports.deleteUser = (req, res) => {
+exports.deleteUser = async (req, res) => {
   try {
-    User.findByIdAndDelete(req.params.id)
-    res.status(204).send({ output: 'Usuário apagado com sucesso!' })
+    const token = req.headers.token;
+
+    // Tenta excluir o usuário e captura o usuário excluído (ou null)
+    const deletedUser = await User.findByIdAndDelete(req.params.id);
+
+    if (!deletedUser) {
+      return res.status(404).send({ output: 'Usuário não encontrado' });
+    }
+
+    // Remove o token do banco de dados
+    await Token.findOneAndDelete({ token });
+
+    res.status(200).send({ output: 'Usuário apagado com sucesso!' });
   } catch (error) {
-    console.log(error)
-    res.status(500).send({ output: 'Erro ao apagar usuário:', erro: error })
+    console.error(error);
+    res.status(500).send({ output: 'Erro ao apagar usuário:', erro: error });
   }
-}
+};
+
