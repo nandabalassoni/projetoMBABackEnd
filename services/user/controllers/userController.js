@@ -13,14 +13,14 @@ exports.registerUser = async (req, res) => {
       name, email, cpf, telephone, age, username, password
     } = req.body
 
-    // Verifique se o e-mail já está cadastrado
+    // Verifica se o e-mail já está cadastrado
     const existingUser = await User.findOne({ email })
     if (existingUser) {
-      return res.status(400).json({ output: 'E-mail já cadastrado.' })
+      return res.status(409).json({ output: 'E-mail já cadastrado.' })
     }
 
-    // Criptografe a senha antes de armazenar no banco de dados
-    const passwordHash = await bcrypt.hash(password, 10)
+    // Criptografa a senha antes de armazenar no banco de dados
+    const passwordHash = await bcrypt.hash(password, config.bcrypt_salt)
 
     const newUser = new User({
       name,
@@ -34,7 +34,7 @@ exports.registerUser = async (req, res) => {
     })
 
     await newUser.save().then((result) => {
-      res.status(201).send({ output: 'Usuário cadastrado com sucesso!', payload: result })
+      res.status(200).send({ output: 'Usuário cadastrado com sucesso!', payload: result })
     })
   } catch (error) {
     console.error(error)
@@ -44,15 +44,12 @@ exports.registerUser = async (req, res) => {
 
 exports.listUsers = async (req, res) => {
   try {
-    // Busca todos os usuários no banco de dados
     const usuarios = await User.find()
 
-    // Verifica se há usuários
     if (usuarios.length === 0) {
       return res.status(404).json({ output: 'Nenhum usuário encontrado.' })
     }
 
-    // Retorna a lista de usuários
     res.status(200).json({ output: 'Lista de usuários encontrada com sucesso.', payload: usuarios })
   } catch (error) {
     console.error(error)
@@ -64,11 +61,11 @@ exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body
 
-    // Verifique se o e-mail existe no banco de dados
+    // Verifica se o e-mail existe no banco de dados
     const user = await User.findOne({ email })
 
     if (!user) {
-      return res.status(401).json({ output: 'Usuário não encontrado!' })
+      return res.status(404).json({ output: 'Usuário não encontrado!' })
     }
 
     // Verifica a senha
@@ -81,15 +78,15 @@ exports.loginUser = async (req, res) => {
     const existingToken = await Token.findOne({ userid: user.id })
 
     if (existingToken) {
-      return res.status(401).json({ output: 'Usuário já está logado!', payload: user, existingToken })
+      return res.status(400).json({ output: 'Usuário já está logado!', payload: user, existingToken })
     }
 
+    // Gera e insere o token na tabela de tokens
     const token = generateToken(user.id, user.username, user.email)
-
-    // Insere o token na tabela de tokens
     const tokenEntry = new Token({ token, userid: user.id })
     await tokenEntry.save()
 
+    // Salva informações de login
     const info = new ManagerUser({
       userid: user.id,
       username: user.username,
@@ -152,19 +149,23 @@ exports.alterarSenha = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
+    const userId = req.params.id
     const {
       name, email, cpf, telephone, age, username
     } = req.body
 
-    const updatedFields = {
-      name, email, cpf, telephone, age, username
-    }
-
-    const user = await User.findByIdAndUpdate(req.params.id, updatedFields, { new: true })
+    const user = await User.findByIdAndUpdate(userId)
 
     if (!user) {
-      return res.status(400).send({ output: 'Não foi possível localizar o usuário!' })
+      return res.status(404).json({ output: 'Usuário não encontrado.' })
     }
+
+    user.name = name
+    user.email = email
+    user.username = username
+    user.cpf = cpf
+    user.telephone = telephone
+    user.age = age
 
     const userObject = user.toObject()
 
@@ -179,7 +180,6 @@ exports.deleteUser = async (req, res) => {
   try {
     const { token } = req.headers
 
-    // Tenta excluir o usuário e captura o usuário excluído (ou null)
     const deletedUser = await User.findByIdAndDelete(req.params.id)
 
     if (!deletedUser) {

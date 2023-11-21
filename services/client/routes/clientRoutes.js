@@ -6,6 +6,8 @@ const clientController = require('../controllers/clientController')
 
 router.post('/cadastrar', authentication, clientController.registerCustomer)
 
+router.get('/listar', authentication, clientController.listClients)
+
 router.put('/atualizar/:id', authentication, clientController.updateCustomer)
 
 router.delete('/deletar/:id', authentication, clientController.deleteCustomer)

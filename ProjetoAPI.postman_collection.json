@@ -7,160 +7,277 @@
 	},
 	"item": [
 		{
-			"name": "Cadastrar um novo usuário",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\"name\": \"Carlos Silva\",\n\"email\": \"carlos.silva@example.com\",\n\"username\": \"carlossilva\",\n\"password\": \"senha789\"\n\"cpf\": \"987.654.321-03\",\n\"telephone\": \"987654321\",\n\"age\": 35,\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+			"name": "Usuário",
+			"item": [
+				{
+					"name": "Usuário - Cadastro",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n\"name\": \"Rafael Oliveira\",\n\"email\": \"rafael.oliveira@example.com\",\n\"username\": \"rafael_78\",\n\"password\": \"securepass567\",\n\"cpf\": \"789.012.345-67\",\n\"telephone\": \"999111222\",\n\"age\": 36\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{HOST_NAME}}:{{USER_API_PORT}}/usuario/cadastrar"
+					},
+					"response": []
 				},
-				"url": "{{HOST_NAME}}:{{USER_API_PORT}}/usuario/cadastrar"
-			},
-			"response": []
+				{
+					"name": "Usuário - Listar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{HOST_NAME}}:{{USER_API_PORT}}/usuario/listar"
+					},
+					"response": []
+				},
+				{
+					"name": "Usuário - Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"email\": \"rafael.oliveira@example.com\",\n\"password\": \"securepass568\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{HOST_NAME}}:{{USER_API_PORT}}/usuario/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Usuário - Alterar senha",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZHVzZXIiOiI2NTVjZjJiZDZlY2QyNzI1YmExMWY5OWYiLCJ1c2VybmFtZSI6InJhZmFlbF83OCIsImVtYWlsIjoicmFmYWVsLm9saXZlaXJhQGV4YW1wbGUuY29tIiwiaWF0IjoxNzAwNTkwMjkwLCJleHAiOjE3MDA3NjMwOTB9.iqV20wUhL9lMei4M9Fz5p3Yla207DSVMmTKMAuakaxI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"currentPassword\": \"securepass567\",\n    \"newPassword\": \"securepass568\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{HOST_NAME}}:{{USER_API_PORT}}/usuario/alterarsenha/655cf2bd6ecd2725ba11f99f"
+					},
+					"response": []
+				},
+				{
+					"name": "Usuário - Atualiza dados",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZHVzZXIiOiI2NTVjZjJiZDZlY2QyNzI1YmExMWY5OWYiLCJ1c2VybmFtZSI6InJhZmFlbF83OCIsImVtYWlsIjoicmFmYWVsLm9saXZlaXJhQGV4YW1wbGUuY29tIiwiaWF0IjoxNzAwNTkwMjkwLCJleHAiOjE3MDA3NjMwOTB9.iqV20wUhL9lMei4M9Fz5p3Yla207DSVMmTKMAuakaxI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"name\": \"Rafael Oliveira\",\n\"email\": \"rafael.oliveira@example.com\",\n\"username\": \"rafael_78\",\n\"cpf\": \"789.012.345-67\",\n\"telephone\": \"999111222\",\n\"age\": 37\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{HOST_NAME}}:{{USER_API_PORT}}/usuario/atualizarusuario/655cf2bd6ecd2725ba11f99f"
+					},
+					"response": []
+				},
+				{
+					"name": "Usuário - Deletar",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZHVzZXIiOiI2NTVjZjJiZDZlY2QyNzI1YmExMWY5OWYiLCJ1c2VybmFtZSI6InJhZmFlbF83OCIsImVtYWlsIjoicmFmYWVsLm9saXZlaXJhQGV4YW1wbGUuY29tIiwiaWF0IjoxNzAwNTkwMjkwLCJleHAiOjE3MDA3NjMwOTB9.iqV20wUhL9lMei4M9Fz5p3Yla207DSVMmTKMAuakaxI",
+								"type": "text"
+							}
+						],
+						"url": "{{HOST_NAME}}:{{USER_API_PORT}}/usuario/deletar/655cf2bd6ecd2725ba11f99f"
+					},
+					"response": []
+				},
+				{
+					"name": "Usuário - Logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZHVzZXIiOiI2NTVjZjJiZDZlY2QyNzI1YmExMWY5OWYiLCJ1c2VybmFtZSI6InJhZmFlbF83OCIsImVtYWlsIjoicmFmYWVsLm9saXZlaXJhQGV4YW1wbGUuY29tIiwiaWF0IjoxNzAwNTkwMjkwLCJleHAiOjE3MDA3NjMwOTB9.iqV20wUhL9lMei4M9Fz5p3Yla207DSVMmTKMAuakaxI",
+								"type": "text"
+							}
+						],
+						"url": "{{HOST_NAME}}:{{USER_API_PORT}}/usuario/logout"
+					},
+					"response": []
+				}
+			]
 		},
 		{
-			"name": "Logar em usuário e obter token JWT",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\"email\": \"carlos.silva@example.com\",\n\"username\": \"carlossilva\",\n\"password\": \"senha789\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+			"name": "Cliente",
+			"item": [
+				{
+					"name": "Cliente - Cadastrar",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{JWT_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"name\": \"Lucas Pereira\",\n\"email\": \"lucas.pereira@dominio.com\",\n\"cpf\": \"123.456.789-04\",\n\"telephone\": \"987654321\",\n\"address\": \"Avenida LMN, 789\",\n\"age\": 28\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{HOST_NAME}}:{{CLIENT_API_PORT}}/cliente/cadastrar"
+					},
+					"response": []
 				},
-				"url": "{{HOST_NAME}}:{{USER_API_PORT}}/usuario/login"
-			},
-			"response": []
+				{
+					"name": "Cliente - Listar",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{JWT_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": "{{HOST_NAME}}:{{CLIENT_API_PORT}}/cliente/listar"
+					},
+					"response": []
+				},
+				{
+					"name": "Cliente - Atualizar",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{JWT_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"name\": \"Lucas Pereira\",\n\"email\": \"lucas.pereira@dominio.com\",\n\"cpf\": \"123.456.789-04\",\n\"telephone\": \"987654321\",\n\"address\": \"Avenida LMN, 789\",\n\"age\": 29\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{HOST_NAME}}:{{CLIENT_API_PORT}}/cliente/atualizar/655cf515cf3fa055313cef5f"
+					},
+					"response": []
+				},
+				{
+					"name": "Cliente - Deletar",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{JWT_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"name\": \"Lucas Pereira\",\n\"email\": \"lucas.pereira@dominio.com\",\n\"cpf\": \"123.456.789-04\",\n\"telephone\": \"987654321\",\n\"address\": \"Avenida LMN, 789\",\n\"age\": 29\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{HOST_NAME}}:{{CLIENT_API_PORT}}/cliente/deletar/655cf515cf3fa055313cef5f"
+					},
+					"response": []
+				}
+			]
 		},
 		{
-			"name": "Alterar senha do usuário",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "token",
-						"value": "{{JWT_TOKEN}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"currentPassword\": \"novasenha\",\n    \"newPassword\": \"nayarafelix\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+			"name": "Financeiro",
+			"item": [
+				{
+					"name": "Infos Financeiras - Cadastrar",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{JWT_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"clientId\": \"655d0190e818bea3a205febb\",\n  \"bankName\": \"Nome do Banco\",\n  \"accountType\": \"Tipo de Conta\",\n  \"cardholderName\": \"Nome do Titular do Cartão\",\n  \"cardLimit\": 5000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{HOST_NAME}}:{{FINANCE_API_PORT}}/financeiro/cadastrar"
+					},
+					"response": []
 				},
-				"url": "{{HOST_NAME}}:{{USER_API_PORT}}/usuario/alterarsenha/6557ecb57c1b5e0b9f121014/"
-			},
-			"response": []
-		},
-		{
-			"name": "Cadastrar um novo cliente",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "token",
-						"value": "{{JWT_TOKEN}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\"name\": \"Lucas Pereira\",\n\"email\": \"lucas.pereira@dominio.com\",\n\"cpf\": \"123.456.789-04\",\n\"telephone\": \"987654321\",\n\"address\": \"Avenida LMN, 789\",\n\"age\": 28\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": "{{HOST_NAME}}:{{CLIENT_API_PORT}}/cliente/cadastrar"
-			},
-			"response": []
-		},
-		{
-			"name": "Atualizar informações do cliente",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "token",
-						"value": "{{JWT_TOKEN}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"name\": \"Novo Nome do Cliente\",\n  \"email\": \"novocliente@dominio.com\",\n  \"telephone\": \"123456789\",\n  \"address\": \"Nova Rua XYZ, 456\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": "{{HOST_NAME}}:{{CLIENT_API_PORT}}/cliente/atualizar/655808932953abf47d5e5d4d"
-			},
-			"response": []
-		},
-		{
-			"name": "Cadastrar informações financeiras",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "token",
-						"value": "{{JWT_TOKEN}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"clientId\": \"655808932953abf47d5e5d4d\",\n  \"bankName\": \"Nome do Banco\",\n  \"accountType\": \"Tipo de Conta\",\n  \"cardholderName\": \"Nome do Titular do Cartão\",\n  \"cardLimit\": 5000\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": "{{HOST_NAME}}:{{FINANCE_API_PORT}}/financeiro/cadastrar"
-			},
-			"response": []
-		},
-		{
-			"name": "Atualizar informações financeiras",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "token",
-						"value": "{{JWT_TOKEN}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"clientId\": \"655808932953abf47d5e5d4d\",\n  \"bankName\": \"Novo Nome do Banco\",\n  \"accountYype\": \"Novo Tipo de Conta\",\n  \"cardholderName\": \"Novo Titular do Cartão\",\n  \"cardLimit\": 7000\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": "{{HOST_NAME}}:{{FINANCE_API_PORT}}/financeiro/atualizar/65580a05a433835977b3dd4c"
-			},
-			"response": []
+				{
+					"name": "Infos Financeiras - Atualizar",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{JWT_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"clientId\": \"655808932953abf47d5e5d4d\",\n  \"bankName\": \"Novo Nome do Banco\",\n  \"accountYype\": \"Novo Tipo de Conta\",\n  \"cardholderName\": \"Novo Titular do Cartão\",\n  \"cardLimit\": 7000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{HOST_NAME}}:{{FINANCE_API_PORT}}/financeiro/atualizar/65580a05a433835977b3dd4c"
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
@@ -206,7 +323,7 @@
 		},
 		{
 			"key": "JWT_TOKEN",
-			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZHVzZXIiOiI2NTU3ZWNiNTdjMWI1ZTBiOWYxMjEwMTQiLCJ1c2VybmFtZSI6Im5vdm91c3VhcmlvIiwiZW1haWwiOiJ1c3VhcmlvQGRvbWluaW8uY29tIiwiaWF0IjoxNzAwMjYyMjI4LCJleHAiOjE3MDA0MzUwMjh9.5s1Gw5k4p93948_Mz83mvQXFJxwRVV0BQHxDcniQq8E",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZHVzZXIiOiI2NTVjZTUxZmI1NTI3NGI1Nzk0NjcyZGMiLCJ1c2VybmFtZSI6Im1hcmlhbmFfMjIiLCJlbWFpbCI6Im1hcmlhbmEub2xpdmVpcmFAZXhhbXBsZS5jb20iLCJpYXQiOjE3MDA1ODY4MjEsImV4cCI6MTcwMDc1OTYyMX0.RR5ifySvv2qBoNUuT0dhUzvRMlv9WWw23AA0XZA4HUA",
 			"type": "string"
 		}
 	]

@@ -26,7 +26,7 @@ exports.registerFinancialInformation = async (req, res) => {
     client.financialInfo = newFinancialInformation.id
 
     await client.save().then((result) => {
-      res.status(201).json({ output: 'Informações financeiras cadastradas com sucesso.', payload: result })
+      res.status(200).json({ output: 'Informações financeiras cadastradas com sucesso.', payload: result })
     })
   } catch (error) {
     console.error(error)

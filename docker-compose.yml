@@ -1,25 +1,13 @@
 version: '3'
 services:
-  userdb:
+  mongodb:
     image: mongo
-    container_name: userdb
+    container_name: mongodb
     ports:
-      - "${USER_DB_PORT}:27017"
+      - "${DB_PORT}:27017"
     environment:
-      MONGO_DATABASE: "${USER_DB_DATABASE}"
-      MONGO_USER: "${USER_DB_USER}"
-      MONGO_PASSWORD: "${USER_DB_PASSWORD}"
+      MONGO_DATABASE: "${DB_DATABASE}"
+      MONGO_USER: "${DB_USER}"
+      MONGO_PASSWORD: "${DB_PASSWORD}"
     volumes:
-      - "${USER_DB_DATA_DIR}:/data/userDB"
-
-  clientdb:
-    image: mongo
-    container_name: clientdb
-    ports:
-      - "${CLIENT_DB_PORT}:27017"
-    environment:
-      MONGO_DATABASE: "${CLIENT_DB_DATABASE}"
-      MONGO_USER: "${CLIENT_DB_USER}"
-      MONGO_PASSWORD: "${CLIENT_DB_PASSWORD}"
-    volumes:
-      - "${CLIENT_DB_DATA_DIR}:/data/clientDB"
+      - "${DB_DATA_DIR}:/data"

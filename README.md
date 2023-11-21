@@ -15,6 +15,24 @@ Para executar o projeto em seu ambiente local, você deve atender aos seguintes 
 ## Configuração
 Certifique-se de ter um arquivo .env na raiz do projeto para armazenar as variáveis de ambiente.
 
+```
+NODE_ENV=development
+
+JWT_KEY=fiap
+
+HOST_NAME=localhost
+
+USER_API_PORT=4000
+CLIENT_API_PORT=5533
+FINANCE_API_PORT=5000
+
+DB_PORT=27017
+DB_DATA_DIR=./data
+DB_DATABASE=projetoapi
+DB_USER=projetoapi
+DB_PASSWORD=projetoapipassword
+```
+
 ## Instalação
 Siga estas etapas para instalar e configurar o projeto em seu ambiente local:
 
@@ -56,17 +74,21 @@ token: seu_token_jwt
 ### Usuários
 Cadastrar um novo usuário:
 ```POST /usuario/cadastrar```
+Corpo da solicitação:
 ```
 {
   "name": "Nome do Usuário",
   "email": "usuario@dominio.com",
+  "username": "novousuario",
+  "password": "novasenha",
   "cpf": "123.456.789-01",
   "telephone": "987654321",
-  "age": 30,
-  "username": "novousuario",
-  "password": "novasenha"
+  "age": 30
 }
 ```
+
+Listar usuários:
+```GET /usuario/listar```
 
 Logar em usuário e obter token JWT:
 ```POST /usuario/login```
@@ -74,10 +96,13 @@ Corpo da solicitação:
 ```
 {
   "email": "usuario@dominio.com",
-  "username": "novousuario",
   "password": "novasenha"
 }
 ```
+
+Deslogar em usuário e obter token JWT:
+```POST /usuario/logout```
+Autenticação Necessária
 
 Alterar senha do usuário:
 ```PUT /usuario/alterarsenha```
@@ -88,6 +113,25 @@ Corpo da solicitação:
   "newPassword": "novasenha"
 }
 ```
+Autenticação Necessária
+
+Atualiza um usuário:
+```PUT /usuario/atualizarusuario/:id```
+Corpo da solicitação:
+```
+{
+  "name": "Nome do Usuário",
+  "email": "usuario@dominio.com",
+  "username": "novousuario",
+  "cpf": "123.456.789-01",
+  "telephone": "987654321",
+  "age": 30
+}
+```
+Autenticação Necessária
+
+Deletar um usuário:
+```PUT /usuario/deletar/:id```
 Autenticação Necessária
 
 ### Clientes
@@ -106,17 +150,27 @@ Corpo da solicitação:
 ```
 Autenticação Necessária
 
+Listar clientes:
+```GET /cliente/listar```
+Autenticação Necessária
+
 Atualizar informações do cliente:
 ```PUT /cliente/atualizar/:id```
 Corpo da solicitação:
 ```
 {
-  "name": "Novo Nome do Cliente",
-  "email": "novocliente@dominio.com",
-  "telephone": "123456789",
-  "address": "Nova Rua XYZ, 456"
+  "name": "Nome do Cliente",
+  "email": "cliente@dominio.com",
+  "cpf": "123.456.789-01",
+  "telephone": "987654321",
+  "address": "Rua ABC, 123",
+  "age": 30
 }
 ```
+Autenticação Necessária
+
+Deletar um cliente:
+```PUT /cliente/deletar/:id```
 Autenticação Necessária
 
 ### Informações Financeiras
