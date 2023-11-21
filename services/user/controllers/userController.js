@@ -45,18 +45,18 @@ exports.registerUser = async (req, res) => {
 exports.listUsers = async (req, res) => {
   try {
     // Busca todos os usuários no banco de dados
-    const usuarios = await User.find();
+    const usuarios = await User.find()
 
     // Verifica se há usuários
     if (usuarios.length === 0) {
-      return res.status(404).json({ output: 'Nenhum usuário encontrado.' });
+      return res.status(404).json({ output: 'Nenhum usuário encontrado.' })
     }
 
     // Retorna a lista de usuários
-    res.status(200).json({ output: 'Lista de usuários encontrada com sucesso.', payload: usuarios });
+    res.status(200).json({ output: 'Lista de usuários encontrada com sucesso.', payload: usuarios })
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ output: `Erro ao listar usuários: ${error}`, error });
+    console.error(error)
+    res.status(500).json({ output: `Erro ao listar usuários: ${error}`, error })
   }
 }
 
@@ -108,15 +108,15 @@ exports.loginUser = async (req, res) => {
 
 exports.logoutUser = async (req, res) => {
   try {
-    const token = req.headers.token;
+    const { token } = req.headers
 
     // Remove o token do banco de dados
-    await Token.findOneAndDelete({ token });
+    await Token.findOneAndDelete({ token })
 
-    res.status(200).send({ output: 'Logout realizado com sucesso!' });
+    res.status(200).send({ output: 'Logout realizado com sucesso!' })
   } catch (error) {
-    console.error(error);
-    res.status(500).send({ output: `Erro ao realizar o logout: ${error}` });
+    console.error(error)
+    res.status(500).send({ output: `Erro ao realizar o logout: ${error}` })
   }
 }
 
@@ -152,43 +152,46 @@ exports.alterarSenha = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
-    const { name, email, cpf, telephone, age, username } = req.body;
+    const {
+      name, email, cpf, telephone, age, username
+    } = req.body
 
-    const updatedFields = { name, email, cpf, telephone, age, username };
-
-    const user = await User.findByIdAndUpdate(req.params.id, updatedFields, { new: true });
-
-    if (!user) {
-      return res.status(400).send({ output: 'Não foi possível localizar o usuário!' });
+    const updatedFields = {
+      name, email, cpf, telephone, age, username
     }
 
-    const userObject = user.toObject();
+    const user = await User.findByIdAndUpdate(req.params.id, updatedFields, { new: true })
 
-    return res.status(200).send({ output: 'Usuário atualizado com sucesso!', payload: userObject });
+    if (!user) {
+      return res.status(400).send({ output: 'Não foi possível localizar o usuário!' })
+    }
+
+    const userObject = user.toObject()
+
+    return res.status(200).send({ output: 'Usuário atualizado com sucesso!', payload: userObject })
   } catch (error) {
-    console.error(error);
-    return res.status(500).send({ output: 'Erro ao tentar atualizar', erro: error.message });
+    console.error(error)
+    return res.status(500).send({ output: 'Erro ao tentar atualizar', erro: error.message })
   }
 }
 
 exports.deleteUser = async (req, res) => {
   try {
-    const token = req.headers.token;
+    const { token } = req.headers
 
     // Tenta excluir o usuário e captura o usuário excluído (ou null)
-    const deletedUser = await User.findByIdAndDelete(req.params.id);
+    const deletedUser = await User.findByIdAndDelete(req.params.id)
 
     if (!deletedUser) {
-      return res.status(404).send({ output: 'Usuário não encontrado' });
+      return res.status(404).send({ output: 'Usuário não encontrado' })
     }
 
     // Remove o token do banco de dados
-    await Token.findOneAndDelete({ token });
+    await Token.findOneAndDelete({ token })
 
-    res.status(200).send({ output: 'Usuário apagado com sucesso!' });
+    res.status(200).send({ output: 'Usuário apagado com sucesso!' })
   } catch (error) {
-    console.error(error);
-    res.status(500).send({ output: 'Erro ao apagar usuário:', erro: error });
+    console.error(error)
+    res.status(500).send({ output: 'Erro ao apagar usuário:', erro: error })
   }
-};
-
+}
